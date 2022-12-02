@@ -4,11 +4,11 @@ const state = {
   token: getToken() || ''
 }
 const mutations = {
-  setToken(state, token) {
+  SET_TOKEN(state, token) {
     state.token = token
     setToken(token)
   },
-  removeToken(state) {
+  REMOVE_TOKEN(state) {
     state.token = ''
     removeToken()
   }
@@ -17,7 +17,7 @@ const actions = {
   async login(context, payload) {
     const result = await login(payload)
     console.log(result)
-    context.commit('setToken', result.data)
+    context.commit('SET_TOKEN', result)
   }
 }
 export default {
