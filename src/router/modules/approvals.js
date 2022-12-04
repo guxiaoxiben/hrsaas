@@ -12,7 +12,8 @@ export default {
       component: () => import('@/views/approvals'),
       meta: {
         // 这里为什么要用title呢， 因为左侧导航会读取我们的路由里的meta里面的title作为显示菜单名称
-        title: '审批'
+        title: '审批',
+        icon: 'tree-table'
       }
     }
   ]
