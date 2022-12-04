@@ -2,6 +2,7 @@ import store from '@/store'
 import axios from 'axios'
 import { Message } from 'element-ui'
 import { getTimeStamp } from '@/utils/auth'
+import router from '@/router'
 const TimeOut = 3600 // 定义超时时间
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -16,8 +17,8 @@ service.interceptors.request.use(
         // token没用了 因为超时了
         store.dispatch('user/logout') // 登出操作
         // 跳转到登录页
-        this.$router.push('/login')
-        return Promise.reject(new Error('token超时了'))
+        router.push('/login')
+        return Promise.reject(new Error('抱歉您登录的token超时了!'))
       }
       config.headers['Authorization'] = `Bearer ${store.getters.token}`
     }
@@ -27,7 +28,7 @@ service.interceptors.request.use(
     if (error.response && error.response.data && error.response.data.code === 10002) {
       // 当等于10002的时候 表示 后端告诉我token超时了
       store.dispatch('user/logout') // 登出action 删除token
-      this.$router.push('/login')
+      router.push('/login')
     } else {
       Message.error(error.message) // 提示错误信息
     }
