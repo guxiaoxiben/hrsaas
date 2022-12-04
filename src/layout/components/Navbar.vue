@@ -12,7 +12,7 @@
         <div class="avatar-wrapper">
           <!-- 待修改动态头像修改 -->
           <!-- <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" /> -->
-          <img src="@/assets/common/bigUserHeader.png" class="user-avatar" />
+          <img v-imageerror="defaultImg" :src="staffPhoto" class="user-avatar" />
           <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
@@ -40,8 +40,13 @@ export default {
   components: {
     Hamburger
   },
+  data() {
+    return {
+      defaultImg: require('@/assets/common/head.jpg')
+    }
+  },
   computed: {
-    ...mapGetters(['sidebar', 'avatar', 'name'])
+    ...mapGetters(['sidebar', 'name', 'staffPhoto'])
   },
   methods: {
     toggleSideBar() {
@@ -49,7 +54,7 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$router.push(`/login`)
     }
   }
 }

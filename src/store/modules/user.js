@@ -1,5 +1,5 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login, getUserInfo } from '@/api/user'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
+import { login, getUserInfo, getUserDetailById } from '@/api/user'
 const state = {
   token: getToken() || '',
   userInfo: {}
@@ -25,11 +25,19 @@ const actions = {
     const result = await login(payload)
     console.log(result)
     context.commit('SET_TOKEN', result)
+    setTimeStamp()
   },
   async getUserInfo(context) {
     const result = await getUserInfo()
-    context.commit('SET_USER_TOKEN', result)
-    return result
+    const baseInfo = await getUserDetailById(result.userId)
+    const baseResult = { ...result, ...baseInfo }
+    context.commit('SET_USER_TOKEN', baseResult)
+    return baseResult
+  },
+  // 退出操作
+  logout(context) {
+    context.commit('REMOVE_TOKEN')
+    context.commit('REMOVE_USER_INFO')
   }
 }
 export default {
