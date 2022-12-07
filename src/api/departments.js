@@ -10,7 +10,7 @@ export function getDepartments() {
 // 删除组织架构部门
 export function delDepartments(id) {
   return request({
-    url: ` /company/department/${id}`,
+    url: `/company/department/${id}`,
     method: 'DELETE'
   })
 }
@@ -21,5 +21,12 @@ export function addDepartments(data) {
     url: '/company/department',
     method: 'post',
     data
+  })
+}
+
+// 获取部门详情
+export function getDepartDetail(id) {
+  return request({
+    url: `/company/department/${id}`
   })
 }

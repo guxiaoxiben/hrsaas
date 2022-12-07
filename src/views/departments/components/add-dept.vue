@@ -1,6 +1,6 @@
 <template>
   <!-- 新增部门的弹层 -->
-  <el-dialog title="新增部门" :visible="showDialog">
+  <el-dialog title="新增部门" :visible="showDialog" @close="btnCancel">
     <!-- 表单组件  el-form   label-width设置label的宽度   -->
     <!-- 匿名插槽 -->
     <el-form ref="deptForm" label-width="120px" :model="formData" :rules="rules">
@@ -24,14 +24,14 @@
       <!-- 列被分为24 -->
       <el-col :span="6">
         <el-button type="primary" size="small" @click="btnOK">确定</el-button>
-        <el-button size="small">取消</el-button>
+        <el-button size="small" @click="btnCancel">取消</el-button>
       </el-col>
     </el-row>
   </el-dialog>
 </template>
 
 <script>
-import { getDepartments, addDepartments } from '@/api/departments'
+import { getDepartments, addDepartments, getDepartDetail } from '@/api/departments'
 import { getEmployeeSimple } from '@/api/employees'
 export default {
   props: {
@@ -93,6 +93,10 @@ export default {
       const res = await getEmployeeSimple()
       this.peoples = res
     },
+    // 获取详情
+    async getDepartDetail(id) {
+      this.formData = await getDepartDetail(id)
+    },
     // 确定添加
     btnOK() {
       this.$refs.deptForm.validate(async (isOK) => {
@@ -101,8 +105,14 @@ export default {
           await addDepartments({ ...this.formData, pid: this.treeNode.id })
           // 添加成功 给父组件发送信号 重新渲染数据
           this.$emit('addDepts')
+          this.$emit('update:showDialog', false)
         }
       })
+    },
+    // 取消
+    btnCancel() {
+      this.$refs.deptForm.resetFields() // 重置校验字段
+      this.$emit('update:showDialog', false) // 关闭
     }
   }
 }

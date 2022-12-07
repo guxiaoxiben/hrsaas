@@ -9,11 +9,11 @@
         <el-tree :data="departs" :props="defaultProps" :default-expand-all="true">
           <!-- 传入内容 插槽内容 会循环多次 有多少节点 就循环多少次 -->
           <!-- 作用域插槽 slot-scope="obj" 接收传递给插槽的数据   data 每个节点的数据对象-->
-          <TreeTools slot-scope="{ data }" :tree-node="data" @del-dept="delDepartments" @addDepts="addDepts" />
+          <TreeTools slot-scope="{ data }" :tree-node="data" @del-dept="delDepartments" @addDepts="addDepts" @editDepts="editDepts" />
         </el-tree>
       </el-card>
     </div>
-    <AddDept :show-dialog="showDialog" :tree-node="node" @addDepts="addition" />
+    <AddDept ref="addDept" :show-dialog.sync="showDialog" :tree-node="node" @addDepts="addition" />
   </div>
 </template>
 
@@ -68,9 +68,16 @@ export default {
     },
     // 添加
     addition() {
-      this.showDialog = false
-      this.$message.success('添加成功')
+      // 刷新
       this.getDepartments()
+      // 提示
+      this.$message.success('添加成功')
+    },
+    // 编辑部门
+    editDepts(node) {
+      this.showDialog = true
+      this.node = node
+      this.$refs.addDept.getDepartDetail(node.id)
     }
   }
 }
