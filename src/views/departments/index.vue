@@ -13,7 +13,7 @@
         </el-tree>
       </el-card>
     </div>
-    <AddDept :show-dialog="showDialog" :tree-node="node" />
+    <AddDept :show-dialog="showDialog" :tree-node="node" @addDepts="addition" />
   </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
       defaultProps: {
         label: 'name' // 表示 从这个属性显示内容
       },
-      company: { name: '江苏传智播客教育科技股份有限公司', manager: '负责人', id: '' }
+      company: { name: '江苏传智播客教育科技股份有限公司', manager: '负责人' }
     }
   },
   created() {
@@ -52,7 +52,7 @@ export default {
     async getDepartments() {
       const { companyName, depts } = await getDepartments()
       // console.log(result)
-      this.company = { name: companyName, manager: '负责人' }
+      this.company = { name: companyName, manager: '负责人', id: '' }
       this.departs = tranListToTreeData(depts, '')
     },
     // 删除功能
@@ -65,6 +65,12 @@ export default {
     addDepts(node) {
       this.showDialog = true
       this.node = node
+    },
+    // 添加
+    addition() {
+      this.showDialog = false
+      this.$message.success('添加成功')
+      this.getDepartments()
     }
   }
 }
