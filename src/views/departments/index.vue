@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">
+  <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <!-- 组织架构 -->
       <el-card class="tree-card">
@@ -41,7 +41,8 @@ export default {
       defaultProps: {
         label: 'name' // 表示 从这个属性显示内容
       },
-      company: { name: '江苏传智播客教育科技股份有限公司', manager: '负责人' }
+      company: { name: '江苏传智播客教育科技股份有限公司', manager: '负责人' },
+      loading: false
     }
   },
   created() {
@@ -50,10 +51,12 @@ export default {
   methods: {
     // 获取数据
     async getDepartments() {
+      this.loading = true
       const { companyName, depts } = await getDepartments()
       // console.log(result)
       this.company = { name: companyName, manager: '负责人', id: '' }
       this.departs = tranListToTreeData(depts, '')
+      this.loading = false
     },
     // 删除功能
     delDepartments(id) {
