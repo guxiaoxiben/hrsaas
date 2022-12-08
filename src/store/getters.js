@@ -1,9 +1,15 @@
 const getters = {
   sidebar: (state) => state.app.sidebar,
   device: (state) => state.app.device,
+  // token快捷
   token: (state) => state.user.token,
+  // 用户名快捷
   name: (state) => state.user.userInfo.username,
+  // 用户id快捷
   userId: (state) => state.user.userInfo.userId,
-  staffPhoto: (state) => state.user.userInfo.staffPhoto
+  // 头像快捷
+  staffPhoto: (state) => state.user.userInfo.staffPhoto,
+  // 公司id快捷
+  companyId: (state) => state.user.userInfo.companyId
 }
 export default getters
