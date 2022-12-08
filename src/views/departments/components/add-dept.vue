@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { getDepartments, addDepartments, getDepartDetail } from '@/api/departments'
+import { getDepartments, addDepartments, getDepartDetail, updateDepartments } from '@/api/departments'
 import { getEmployeeSimple } from '@/api/employees'
 export default {
   props: {
@@ -47,12 +47,27 @@ export default {
   data() {
     const checkNameRepeat = async (rule, value, callback) => {
       const { depts } = await getDepartments()
-      const isRepeat = depts.filter((item) => item.pid === this.treeNode.id).some((item) => item.name === value)
+      let isRepeat = false
+      if (this.formData.id) {
+        // 编辑操作
+        depts.filter((item) => item.pid === this.treeNode.pid && item.id !== this.treeNode.id).some((item) => item.name === value)
+      } else {
+        // 添加操作
+        isRepeat = depts.filter((item) => item.pid === this.treeNode.id).some((item) => item.name === value)
+      }
+
       isRepeat ? callback(new Error(`同级部门下已有【${value}】的部门了`)) : callback()
     }
     const checkCodeRepeat = async (rule, value, callback) => {
       const { depts } = await getDepartments()
-      const isRepeat = depts.some((item) => item.code === value && value)
+      let isRepeat = false
+      if (this.formData.id) {
+        // 编辑操作
+        isRepeat = depts.filter((item) => item.id !== this.treeNode.id).some((item) => item.code === value && value)
+      } else {
+        // 添加操作
+        isRepeat = depts.some((item) => item.code === value && value)
+      }
       isRepeat ? callback(new Error(`组织架构下已有【${value}】的编码了`)) : callback()
     }
     return {
@@ -106,24 +121,37 @@ export default {
     btnOK() {
       this.$refs.deptForm.validate(async (isOK) => {
         if (isOK) {
-          // 将id存放在pid
-          await addDepartments({ ...this.formData, pid: this.treeNode.id })
-          // 添加成功 给父组件发送信号 重新渲染数据
-          this.$emit('addDepts')
+          if (this.formData.id) {
+            // 修改操作
+            await updateDepartments(this.formData)
+            // 添加成功 给父组件发送信号 重新渲染数据
+            this.$emit('upDepts')
+          } else {
+            // 添加操作
+            // 将id存放在pid
+            await addDepartments({ ...this.formData, pid: this.treeNode.id })
+            // 添加成功 给父组件发送信号 重新渲染数据
+            this.$emit('addDepts')
+          }
+
+          // 关闭显示框
           this.$emit('update:showDialog', false)
         }
       })
     },
     // 取消
     btnCancel() {
+      // 重置数据 能重置效验字段外的数据
       this.formData = {
         name: '',
         code: '',
         manager: '',
         introduce: ''
       }
-      this.$refs.deptForm.resetFields() // 重置校验字段
-      this.$emit('update:showDialog', false) // 关闭
+      // 重置校验字段
+      this.$refs.deptForm.resetFields()
+      // 关闭弹出
+      this.$emit('update:showDialog', false)
     }
   }
 }
