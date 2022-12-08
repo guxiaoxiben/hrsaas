@@ -13,7 +13,7 @@
         </el-tree>
       </el-card>
     </div>
-    <AddDept ref="addDept" :show-dialog.sync="showDialog" :tree-node="node" @addDepts="addition" @upDepts="upDepts" />
+    <AddDept ref="addDept" :show-dialog.sync="showDialog" :tree-node="node" @addDepts="addition" />
   </div>
 </template>
 
@@ -69,25 +69,18 @@ export default {
       this.showDialog = true
       this.node = node
     },
-    // 添加 刷新、提示
+    // 添加/编辑 刷新、提示
     addition() {
       // 刷新
       this.getDepartments()
       // 提示
-      this.$message.success('添加成功')
+      this.$message.success('操作成功')
     },
     // 编辑部门
     editDepts(node) {
       this.showDialog = true
       this.node = node
       this.$refs.addDept.getDepartDetail(node.id)
-    },
-    // 编辑 刷新、提示
-    upDepts() {
-      // 刷新
-      this.getDepartments()
-      // 提示
-      this.$message.success('修改成功')
     }
   }
 }

@@ -124,16 +124,13 @@ export default {
           if (this.formData.id) {
             // 修改操作
             await updateDepartments(this.formData)
-            // 添加成功 给父组件发送信号 重新渲染数据
-            this.$emit('upDepts')
           } else {
             // 添加操作
             // 将id存放在pid
             await addDepartments({ ...this.formData, pid: this.treeNode.id })
-            // 添加成功 给父组件发送信号 重新渲染数据
-            this.$emit('addDepts')
           }
-
+          // 成功 给父组件发送信号 重新渲染数据
+          this.$emit('addDepts')
           // 关闭显示框
           this.$emit('update:showDialog', false)
         }
