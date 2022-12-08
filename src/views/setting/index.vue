@@ -7,7 +7,7 @@
           <el-tab-pane label="角色管理">
             <!-- 新增角色按钮 -->
             <el-row style="height: 60px">
-              <el-button icon="el-icon-plus" size="small" type="primary">新增角色</el-button>
+              <el-button icon="el-icon-plus" size="small" type="primary" @click="addRole">新增角色</el-button>
             </el-row>
             <!-- 表格 -->
             <el-table border="" :data="list">
@@ -49,7 +49,7 @@
       </el-card>
     </div>
     <!-- 弹层 -->
-    <el-dialog title="编辑弹层" :visible="showDialog" @close="btnCancel">
+    <el-dialog :title="showTitle" :visible="showDialog" @close="btnCancel">
       <el-form ref="roleForm" :model="roleForm" :rules="rules" label-width="120px">
         <el-form-item label="角色名称" prop="name">
           <el-input v-model="roleForm.name" />
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo, deleteRole, getRoleDetail, updateRole } from '@/api/setting'
+import { getRoleList, getCompanyInfo, deleteRole, getRoleDetail, updateRole, addRole } from '@/api/setting'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -98,10 +98,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['companyId'])
+    ...mapGetters(['companyId']),
+    // 修改弹窗标题
+    showTitle() {
+      return this.roleForm.id ? '编辑角色' : '新增角色'
+    }
   },
   created() {
+    // 获取角色信息
     this.getRoleList()
+    // 获取公司信息
     this.getCompanyInfo()
   },
 
@@ -145,9 +151,12 @@ export default {
           await updateRole(this.roleForm)
         } else {
           // 添加操作
+          await addRole(this.roleForm)
         }
+        // 刷新数据
         this.getRoleList()
         this.$message.success('操作成功')
+        // 关闭弹窗
         this.showDialog = false
       } catch (error) {
         console.log(error)
@@ -161,7 +170,12 @@ export default {
       }
       // 移除校验
       this.$refs.roleForm.resetFields()
+      // 关闭弹窗
       this.showDialog = false
+    },
+    // 新增
+    addRole() {
+      this.showDialog = true
     }
   }
 }
