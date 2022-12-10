@@ -108,7 +108,9 @@ export function param2Obj(url) {
   return obj
 }
 
-// 转化数据为树形结构
+/**
+ * 转换数据为树形结构
+ */
 export function tranListToTreeData(list, rootValue) {
   var arr = []
   list.forEach((item) => {

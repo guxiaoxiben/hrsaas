@@ -1,13 +1,17 @@
 import request from '@/utils/request'
 
-// 获取部门列表
+/**
+ * 获取部门列表
+ */
 export function getDepartments() {
   return request({
     url: '/company/department'
   })
 }
 
-// 删除组织架构部门
+/**
+ * 删除组织架构部门
+ */
 export function delDepartments(id) {
   return request({
     url: `/company/department/${id}`,
@@ -15,7 +19,9 @@ export function delDepartments(id) {
   })
 }
 
-// 新增部门
+/**
+ * 新增部门
+ */
 export function addDepartments(data) {
   return request({
     url: '/company/department',
@@ -24,14 +30,18 @@ export function addDepartments(data) {
   })
 }
 
-// 获取部门详情
+/**
+ * 获取部门详情
+ */
 export function getDepartDetail(id) {
   return request({
     url: `/company/department/${id}`
   })
 }
 
-// 编辑部门
+/**
+ * 编辑部门
+ */
 export function updateDepartments(data) {
   return request({
     url: `/company/department/${data.id}`,
