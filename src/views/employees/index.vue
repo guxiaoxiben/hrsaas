@@ -18,8 +18,16 @@
           <el-table-column align="center" prop="workNumber" label="工号" sortable="" />
           <el-table-column align="center" prop="formOfEmployment" label="聘用形式" sortable="" :formatter="formatEmployment" />
           <el-table-column align="center" prop="departmentName" label="部门" sortable="" />
-          <el-table-column align="center" prop="timeOfEntry" label="入职时间" sortable="" />
-          <el-table-column align="center" prop="enableState" label="账户状态" sortable="" />
+          <el-table-column align="center" label="入职时间" sortable="">
+            <!-- 时间转换 -->
+            <template slot-scope="{ row }">{{ row.timeOfEntry | formatDate }}</template>
+          </el-table-column>
+          <el-table-column align="center" prop="enableState" label="账户状态" sortable="">
+            <template slot-scope="{ row }">
+              <!-- 开关UI -->
+              <el-switch :value="row.enableState === 1" />
+            </template>
+          </el-table-column>
           <el-table-column align="center" label="操作" sortable="" fixed="right" width="280">
             <template>
               <el-button type="text" size="small">查看</el-button>
@@ -31,11 +39,11 @@
             </template>
           </el-table-column>
         </el-table>
+        <!-- 分页 -->
         <el-row type="flex" justify="center" align="middle" style="height: 60px">
           <el-pagination layout="prev, pager, next" :total="page.total" :page-size="page.size" :current-page="page.page" @current-change="changePage"> </el-pagination>
         </el-row>
       </el-card>
-      <!-- 分页 -->
     </div>
   </div>
 </template>
