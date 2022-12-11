@@ -93,7 +93,7 @@ export default {
     },
     // 格式化聘用形式
     formatEmployment(row, column, cellValue, index) {
-      const obj = EmployeeEnum.hireType.find((item) => item.id === cellValue)
+      const obj = EmployeeEnum.hireType.find((item) => item.id === +cellValue)
       return obj ? obj.value : '未知'
     },
     // 删除员工
