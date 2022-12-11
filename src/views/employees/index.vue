@@ -53,6 +53,7 @@
 import { getEmployeeList, delEmployee } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees'
 import AddDemployee from './components/add-employee.vue'
+import { formatDate } from '@/filters'
 export default {
   components: {
     AddDemployee
@@ -125,12 +126,20 @@ export default {
       import('@/vendor/Export2Excel').then(async (excel) => {
         const { rows } = await getEmployeeList({ page: 1, size: this.page.total })
         const data = this.formatJson(headers, rows)
+        // 复杂表头
+        const multiHeader = [['姓名', '主要信息', '', '', '', '', '部门']]
+        // 合并选项
+        const merges = ['A1:A2', 'B1:F1', 'G1:G2']
         excel.export_json_to_excel({
           header: Object.keys(headers),
           data,
-          filename: '员工表',
+          filename: '员工资料表',
           autoWidth: true,
-          bookType: 'xlsx'
+          bookType: 'xlsx',
+          // 复杂表头
+          multiHeader,
+          // 合并选项
+          merges
         })
       })
     },
@@ -138,6 +147,12 @@ export default {
     formatJson(headers, rows) {
       return rows.map((item) => {
         return Object.keys(headers).map((key) => {
+          if (headers[key] === 'timeOfEntry' || headers[key] === 'correctionTime') {
+            return formatDate(item[headers[key]]) // 返回格式化之前的时间
+          } else if (headers[key] === 'formOfEmployment') {
+            var en = EmployeeEnum.hireType.find((obj) => obj.id === item[headers[key]])
+            return en ? en.value : '未知'
+          }
           return item[headers[key]]
         })
       })
