@@ -5,8 +5,8 @@
       <page-tools :show-before="true">
         <template v-slot:before>共{{ page.total }}条记录</template>
         <template v-slot:after>
-          <el-button size="small" type="warning">导入</el-button>
-          <el-button size="small" type="danger">导出</el-button>
+          <el-button size="small" type="warning" @click="$router.push('/import?type=user')">导入</el-button>
+          <el-button size="small" type="danger" @click="exportData">导出</el-button>
           <el-button size="small" type="primary" @click="add">新增员工</el-button>
         </template>
       </page-tools>
@@ -110,6 +110,37 @@ export default {
     // 添加
     add() {
       this.showDialog = true
+    },
+    // 导出excel
+    exportData() {
+      const headers = {
+        姓名: 'username',
+        手机号: 'mobile',
+        入职日期: 'timeOfEntry',
+        聘用形式: 'formOfEmployment',
+        转正日期: 'correctionTime',
+        工号: 'workNumber',
+        部门: 'departmentName'
+      }
+      import('@/vendor/Export2Excel').then(async (excel) => {
+        const { rows } = await getEmployeeList({ page: 1, size: this.page.total })
+        const data = this.formatJson(headers, rows)
+        excel.export_json_to_excel({
+          header: Object.keys(headers),
+          data,
+          filename: '员工表',
+          autoWidth: true,
+          bookType: 'xlsx'
+        })
+      })
+    },
+    // 表头数据和数据转化
+    formatJson(headers, rows) {
+      return rows.map((item) => {
+        return Object.keys(headers).map((key) => {
+          return item[headers[key]]
+        })
+      })
     }
   }
 }
