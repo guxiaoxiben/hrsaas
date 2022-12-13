@@ -1,6 +1,15 @@
 <template>
   <div>
-    <el-upload list-type="picture-card" :limit="1" action="#" :on-preview="preview" :file-list="fileList" :class="{ disabled: fileComputed }">
+    <el-upload
+      list-type="picture-card"
+      :limit="1"
+      action="#"
+      :on-preview="preview"
+      :file-list="fileList"
+      :class="{ disabled: fileComputed }"
+      :on-remove="handleRemove"
+      :on-change="changeFile"
+    >
       <i class="el-icon-plus" />
     </el-upload>
     <el-dialog title="图片" :visible.sync="showDialog">
@@ -25,9 +34,18 @@ export default {
     }
   },
   methods: {
+    // 选择文件
     preview(file) {
       this.imgUrl = file.url
       this.showDialog = true
+    },
+    // 删除 三个参数 file是要删除的文件 fileList是删除之后的文件 this.fileList是文件详情
+    handleRemove(file, fileList) {
+      this.fileList = this.fileList.filter((item) => item.uid !== file.uid)
+    },
+    // 添加
+    changeFile(file, fileList) {
+      this.fileList = fileList.map((item) => item)
     }
   }
 }
