@@ -16,8 +16,12 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="个人详情"></el-tab-pane>
-          <el-tab-pane label="岗位信息"></el-tab-pane>
+          <el-tab-pane label="个人详情">
+            <component :is="userComponent"></component>
+          </el-tab-pane>
+          <el-tab-pane label="岗位信息">
+            <component :is="JobInfo"></component>
+          </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
@@ -27,9 +31,19 @@
 <script>
 import { getUserDetailById } from '@/api/user'
 import { saveUserDetailById } from '@/api/employees'
+import UserInfo from './components/user-info.vue'
+import JobInfo from './components/job-info.vue'
 export default {
+  components: {
+    UserInfo,
+    JobInfo
+  },
   data() {
     return {
+      // 个人详情
+      userComponent: 'UserInfo',
+      // 岗位信息
+      JobInfo: 'JobInfo',
       userId: this.$route.params.id,
       userInfo: {
         username: '',
@@ -44,29 +58,24 @@ export default {
       }
     }
   },
+
   created() {
     this.getUserDetailById()
   },
   methods: {
     async getUserDetailById() {
-      this.userInfo = await getUserDetailById(this.userId)
+      try {
+        this.userInfo = await getUserDetailById(this.userId)
+      } catch (error) {
+        console.log(error)
+      }
     },
-    // async saveUser() {
-    //   try {
-    //     await this.$refs.userForm.validate()
-    //     // 原数据中没有password2 所以 咱们解构把password2赋值给 password
-    //     await saveUserDetailById({ ...this.userInfo, password: this.userInfo.password2 })
-    //     this.$message.success('修改用户信息成功')
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
     async saveUser() {
       try {
-        // 校验
         await this.$refs.userForm.validate()
-        await saveUserDetailById({ ...this.userInfo, password: this.userInfo.password2 }) // 将新密码的值替换原密码的值
-        this.$message.success('保存成功')
+        // 原数据中没有password2 所以 咱们解构把password2赋值给 password
+        await saveUserDetailById({ ...this.userInfo, password: this.userInfo.password2 })
+        this.$message.success('修改用户信息成功')
       } catch (error) {
         console.log(error)
       }
