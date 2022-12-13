@@ -105,7 +105,7 @@
 
 <script>
 import EmployeeEnum from '@/api/constant/employees'
-
+import { getEmployeeSimple, getJobDetail, updateJob } from '@/api/employees'
 export default {
   data() {
     return {
@@ -142,8 +142,36 @@ export default {
       }
     }
   },
+  created() {
+    this.getEmployeeSimple()
+    this.getJobDetail()
+  },
   methods: {
-    saveJob() {}
+    // 保存
+    async saveJob() {
+      try {
+        await updateJob(this.formData)
+        this.$message.success('保存岗位信息成功')
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    // 获取员工列表
+    async getEmployeeSimple() {
+      try {
+        this.depts = await getEmployeeSimple()
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    // 获取岗位信息
+    async getJobDetail() {
+      try {
+        this.formData = await getJobDetail(this.userId)
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 }
 </script>
