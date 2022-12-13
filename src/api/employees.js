@@ -57,6 +57,7 @@ export function importEmployee(data) {
 export function saveUserDetailById(data) {
   return request({
     url: `/sys/user/${data.id}`,
-    method: 'PUT'
+    method: 'put',
+    data
   })
 }
