@@ -27,8 +27,8 @@
 import COS from 'cos-js-sdk-v5' // 引入腾讯云的包
 // 需要实例化
 const cos = new COS({
-  SecretId: 'AKIDa4ReeTDpFTVLy2ujMoCWkqliS9g1BGDF',
-  SecretKey: 'xgKisvnX5UingNxOjz87uWyLakssfCYg'
+  SecretId: '你们自己的',
+  SecretKey: '你们自己的'
 }) // 实例化的包 已经具有了上传的能力 可以上传到该账号里面的存储桶了
 
 export default {

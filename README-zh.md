@@ -1,4 +1,4 @@
-## 你们下载后 要修改的文件
+## 要修改的文件
 
 src/components/ImageUpload/index.vue
 
