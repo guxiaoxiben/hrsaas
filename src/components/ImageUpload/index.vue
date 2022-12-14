@@ -17,7 +17,7 @@
     <!-- 进度条 -->
     <el-progress v-if="showPercent" style="width: 180px" :percentage="percent" />
 
-    <el-dialog title="图片" :visible.sync="showDialog">
+    <el-dialog title="预览图片" :visible.sync="showDialog">
       <img :src="imgUrl" style="width: 100%; max-height: 300px; object-fit: contai" alt="" />
     </el-dialog>
   </div>

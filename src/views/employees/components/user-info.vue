@@ -48,6 +48,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
+            <image-upload ref="staffPhoto" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -73,6 +74,7 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <image-upload ref="myStaffPhoto" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -314,16 +316,31 @@ export default {
     // 保存基本信息
     async saveUser() {
       try {
-        await saveUserDetailById(this.userInfo)
+        // 读取一下上传组件的数据
+        const fileList = this.$refs.staffPhoto.fileList
+        // 判断 寻找 upload=false 找到了就是图片没上传完
+        if (fileList.some((item) => !item.upload)) {
+          this.$message.success('您当前还有图片没有上传完成！')
+          return
+        }
+        await saveUserDetailById({ ...this.userInfo, staffPhoto: fileList && fileList.length ? fileList[0].url : '' })
         this.$message.success('保存用户基本信息成功')
       } catch (error) {
         console.log(error)
       }
     },
+
     // 保存基础信息
     async savePersonal() {
       try {
-        await updatePersonal(this.formData)
+        // 读取一下上传组件的数据
+        const fileList = this.$refs.myStaffPhoto.fileList
+        // 判断 寻找 upload=false 找到了就是图片没上传完
+        if (fileList.some((item) => !item.upload)) {
+          this.$message.success('您当前还有图片没有上传完成！')
+          return
+        }
+        await updatePersonal({ ...this.formData, staffPhoto: fileList && fileList.length ? fileList[0].url : '' })
         this.$message.success('保存用户基础信息成功')
       } catch (error) {
         console.log(error)
@@ -333,6 +350,11 @@ export default {
     async getUserDetailById() {
       try {
         this.userInfo = await getUserDetailById(this.userId)
+        // 判断一下 有没有图片地址 如果有就显示 【读取时赋值图片】trim去除空格
+        if (this.userInfo.staffPhoto && this.userInfo.staffPhoto.trim()) {
+          // 这里我们赋值，同时需要给赋值的地址一个标记 upload: true
+          this.$refs.staffPhoto.fileList = [{ url: this.userInfo.staffPhoto, upload: true }]
+        }
       } catch (error) {
         console.log(error)
       }
@@ -341,6 +363,10 @@ export default {
     async getPersonalDetail() {
       try {
         this.formData = await getPersonalDetail(this.userId)
+        // 判断一下 有没有图片地址 如果有就显示【读取时赋值图片】trim去除空格
+        if (this.formData.staffPhoto && this.formData.staffPhoto.trim()) {
+          this.$refs.myStaffPhoto.fileList = [{ url: this.formData.staffPhoto, upload: true }]
+        }
       } catch (error) {
         console.log(error)
       }
