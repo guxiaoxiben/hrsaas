@@ -14,6 +14,9 @@
     >
       <i class="el-icon-plus" />
     </el-upload>
+    <!-- 进度条 -->
+    <el-progress v-if="showPercent" style="width: 180px" :percentage="percent" />
+
     <el-dialog title="图片" :visible.sync="showDialog">
       <img :src="imgUrl" style="width: 100%; max-height: 300px; object-fit: contai" alt="" />
     </el-dialog>
@@ -35,7 +38,11 @@ export default {
       showDialog: false, // 控制显示弹层
       imgUrl: '',
       // 记录的uid
-      currentFileUid: ''
+      currentFileUid: '',
+      // 记录进度条的百分比
+      percent: 0,
+      // 进度条显示状态
+      showPercent: false
     }
   },
   computed: {
@@ -76,6 +83,8 @@ export default {
       }
       // 记录一下当前的uid
       this.currentFileUid = file.uid
+      // 显示进度条
+      this.showPercent = true
       // 上面都满足了[格式|大小]  return true
       return true
     },
