@@ -1,6 +1,8 @@
 export const imageerror = {
   // 指令对象 会在当前的dom元素插入到节点之后执行
   inserted(dom, options) {
+    // 图片存在 正常显示图片  图片不存在的话 给他一个默认值显示
+    dom.src = dom.src || options.value
     // options是 指令中的变量的解释  其中有一个属性叫做 value
     // dom 表示当前指令作用的dom对象
     // dom认为此时就是图片
@@ -10,5 +12,9 @@ export const imageerror = {
       // dom可以注册error事件
       dom.src = options.value // 这里不能写死
     }
+  },
+  // 更新完 执行
+  componentUpdated(dom, options) {
+    dom.src = dom.src || options.value
   }
 }
