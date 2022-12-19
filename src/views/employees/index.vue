@@ -46,7 +46,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="editRole(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -58,11 +58,13 @@
       </el-card>
       <AddDemployee :show-dialog.sync="showDialog"></AddDemployee>
     </div>
+    <!-- 二维码 -->
     <el-dialog title="二维码" :visible.sync="showCodeDialog" @close="imgUrl = ''">
       <el-row type="flex" justify="center">
         <canvas ref="myCanvas" />
       </el-row>
     </el-dialog>
+    <AssignRole ref="assignRole" :show-role-dialog.sync="showRoleDialog" :user-id="userId"></AssignRole>
   </div>
 </template>
 
@@ -70,11 +72,13 @@
 import { getEmployeeList, delEmployee } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees'
 import AddDemployee from './components/add-employee.vue'
+import AssignRole from './components/assign-role'
 import { formatDate } from '@/filters'
 import QrCode from 'qrcode'
 export default {
   components: {
-    AddDemployee
+    AddDemployee,
+    AssignRole
   },
   data() {
     return {
@@ -87,7 +91,11 @@ export default {
       },
       showDialog: false,
       // 二维码弹层
-      showCodeDialog: false
+      showCodeDialog: false,
+      // 角色弹窗
+      showRoleDialog: false,
+      // 角色id
+      userId: ''
     }
   },
   created() {
@@ -191,6 +199,12 @@ export default {
       } else {
         this.$message.warning('该用户还未上传头像')
       }
+    },
+    // 角色
+    async editRole(id) {
+      this.userId = id
+      await this.$refs.assignRole.getUserDetailById(id)
+      this.showRoleDialog = true
     }
   }
 }
