@@ -58,7 +58,7 @@
       </el-card>
       <AddDemployee :show-dialog.sync="showDialog"></AddDemployee>
     </div>
-    <el-dialog title="二维码" :visible.sync="showCodeDialog" @opened="showQrCode" @close="imgUrl = ''">
+    <el-dialog title="二维码" :visible.sync="showCodeDialog" @close="imgUrl = ''">
       <el-row type="flex" justify="center">
         <canvas ref="myCanvas" />
       </el-row>
@@ -177,6 +177,7 @@ export default {
         })
       })
     },
+    // 将头像转换成二维码
     showQrCode(url) {
       // url存在的情况下 才弹出层
       if (url) {
