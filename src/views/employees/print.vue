@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container" id="myPrint">
+  <div id="myPrint" class="dashboard-container">
     <div class="app-container">
       <el-card>
         <el-breadcrumb separator="/" class="titInfo">
