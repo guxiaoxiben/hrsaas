@@ -14,9 +14,9 @@
         <el-table-column align="center" label="描述" prop="description" />
         <el-table-column align="center" label="操作">
           <template slot-scope="{ row }">
-            <el-button v-if="row.type === 1" type="text">添加</el-button>
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">删除</el-button>
+            <el-button v-if="row.type === 1" type="text" @click="addPermission(row.id, 2)">添加</el-button>
+            <el-button type="text" @click="editPermission(row.id)">编辑</el-button>
+            <el-button type="text" @click="delPermission(row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { getPermissionList } from '@/api/permisson'
+import { getPermissionList, delPermission, addPermission, updatePermission, getPermissionDetail } from '@/api/permisson'
 import { tranListToTreeData } from '@/utils'
 export default {
   data() {
@@ -81,6 +81,57 @@ export default {
   methods: {
     async getPermissionList() {
       this.list = tranListToTreeData(await getPermissionList(), '0')
+    },
+    // 删除
+    async delPermission(id) {
+      try {
+        await this.$confirm('确定要删除该数据吗')
+        await delPermission(id)
+        this.getPermissionList()
+        this.$message.success('删除成功')
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    // 添加
+    addPermission(pid, type) {
+      this.formData.pid = pid
+      this.formData.type = type
+      this.showDialog = true
+    },
+    btnOK() {
+      this.$refs.perForm
+        .validate()
+        .then(() => {
+          if (this.formData.id) {
+            return updatePermission(this.formData)
+          }
+          return addPermission(this.formData)
+        })
+        .then(() => {
+          //  提示消息
+          this.$message.success('新增成功')
+          this.getPermissionList()
+          this.showDialog = false
+        })
+    },
+    btnCancel() {
+      this.formData = {
+        name: '', // 名称
+        code: '', // 标识
+        description: '', // 描述
+        type: '', // 类型 该类型 不需要显示 因为点击添加的时候已经知道类型了
+        pid: '', // 因为做的是树 需要知道添加到哪个节点下了
+        enVisible: '0' // 开启
+      }
+      this.$refs.perForm.resetFields()
+      this.showDialog = false
+    },
+    // 编辑
+    async editPermission(id) {
+      // 根据获取id获取详情
+      this.formData = await getPermissionDetail(id)
+      this.showDialog = true
     }
   }
 }
