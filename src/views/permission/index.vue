@@ -4,7 +4,7 @@
       <!-- 靠右的按钮 -->
       <page-tools>
         <template v-slot:after>
-          <el-button type="primary" size="small">添加权限</el-button>
+          <el-button type="primary" size="small" @click="addPermission('0', 1)">添加权限</el-button>
         </template>
       </page-tools>
       <!-- 表格 -->
