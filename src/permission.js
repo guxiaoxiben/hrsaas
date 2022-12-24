@@ -11,9 +11,13 @@ router.beforeEach(async (to, form, next) => {
       next('/')
     } else {
       if (!store.getters.userId) {
-        await store.dispatch('user/getUserInfo')
+        const { roles } = await store.dispatch('user/getUserInfo')
+        const routes = await store.dispatch('permission/filterRoutes', roles.menus)
+        router.addRoutes(routes)
+        next(to.path)
+      } else {
+        next()
       }
-      next()
     }
   } else {
     if (whilteList.indexOf(to.path) > -1) {

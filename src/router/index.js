@@ -63,7 +63,7 @@ const createRouter = () =>
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
     // 临时合并所有的路由
-    routes: [...constantRoutes, ...asyncRoutes]
+    routes: [...constantRoutes]
   })
 
 const router = createRouter()

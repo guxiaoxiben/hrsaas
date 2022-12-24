@@ -10,6 +10,8 @@ const getters = {
   // 头像快捷
   staffPhoto: (state) => state.user.userInfo.staffPhoto,
   // 公司id快捷
-  companyId: (state) => state.user.userInfo.companyId
+  companyId: (state) => state.user.userInfo.companyId,
+  // 导出当前的路由
+  routes: (state) => state.permission.routes
 }
 export default getters
