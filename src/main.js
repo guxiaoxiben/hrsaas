@@ -19,6 +19,7 @@ import '@/permission' // permission control
 import Component from '@/components'
 // 过滤器
 import * as filters from '@/filters'
+import checkPermission from '@/mixin/checkPermission'
 Vue.use(Component)
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
@@ -26,7 +27,7 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
-
+Vue.mixin(checkPermission)
 Object.keys(directives).forEach((key) => {
   // 注册自定义指令
   Vue.directive(key, directives[key])
