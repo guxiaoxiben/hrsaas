@@ -13,7 +13,7 @@ router.beforeEach(async (to, form, next) => {
       if (!store.getters.userId) {
         const { roles } = await store.dispatch('user/getUserInfo')
         const routes = await store.dispatch('permission/filterRoutes', roles.menus)
-        router.addRoutes(routes)
+        router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])
         next(to.path)
       } else {
         next()
