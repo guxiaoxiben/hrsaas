@@ -5,7 +5,7 @@
       <div>
         <div class="fl headL">
           <div class="headImg">
-            <img v-imageerror="defaultImg" src="staffPhoto" />
+            <img v-imageerror="defaultImg" :src="staffPhoto" />
           </div>
           <div class="headInfoTip">
             <p class="firstChild">早安，{{ name }}，祝你开心每一天！</p>
@@ -23,6 +23,7 @@
         <el-card class="box-card">
           <div slot="header" class="header">
             <span>工作日历</span>
+            <work-calendar></work-calendar>
           </div>
           <!-- 放置日历组件 -->
         </el-card>
@@ -120,9 +121,13 @@
 
 <script>
 import { mapGetters, createNamespacedHelpers } from 'vuex'
+import workCalendar from './components/work-calendar'
 const { mapState } = createNamespacedHelpers('user')
 export default {
   name: 'Dashboard',
+  components: {
+    workCalendar
+  },
   data() {
     return {
       defaultImg: require('@/assets/common/head.jpg')
