@@ -35,12 +35,12 @@ export function timeAgo(time) {
  */
 export function numberFormatter(num, digits) {
   const si = [
-    { value: 1E18, symbol: 'E' },
-    { value: 1E15, symbol: 'P' },
-    { value: 1E12, symbol: 'T' },
-    { value: 1E9, symbol: 'G' },
-    { value: 1E6, symbol: 'M' },
-    { value: 1E3, symbol: 'k' }
+    { value: 1e18, symbol: 'E' },
+    { value: 1e15, symbol: 'P' },
+    { value: 1e12, symbol: 'T' },
+    { value: 1e9, symbol: 'G' },
+    { value: 1e6, symbol: 'M' },
+    { value: 1e3, symbol: 'k' }
   ]
   for (let i = 0; i < si.length; i++) {
     if (num >= si[i].value) {
@@ -55,7 +55,7 @@ export function numberFormatter(num, digits) {
  * @param {number} num
  */
 export function toThousandFilter(num) {
-  return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
+  return (+num || 0).toString().replace(/^-?\d+/g, (m) => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
 }
 
 /**
@@ -124,17 +124,7 @@ export function formatTime(time, option) {
   if (option) {
     return parseTime(time, option)
   } else {
-    return (
-      d.getMonth() +
-      1 +
-      '月' +
-      d.getDate() +
-      '日' +
-      d.getHours() +
-      '时' +
-      d.getMinutes() +
-      '分'
-    )
+    return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
 }
 export function getNowFormatDate() {
@@ -154,38 +144,35 @@ export function getNowFormatDate() {
 }
 /* 数字 格式化 */
 export function nFormatter(num, digits) {
-  const si = [{
-    value: 1e18,
-    symbol: 'E'
-  },
-  {
-    value: 1e15,
-    symbol: 'P'
-  },
-  {
-    value: 1e12,
-    symbol: 'T'
-  },
-  {
-    value: 1e9,
-    symbol: 'G'
-  },
-  {
-    value: 1e6,
-    symbol: 'M'
-  },
-  {
-    value: 1e3,
-    symbol: 'k'
-  }
+  const si = [
+    {
+      value: 1e18,
+      symbol: 'E'
+    },
+    {
+      value: 1e15,
+      symbol: 'P'
+    },
+    {
+      value: 1e12,
+      symbol: 'T'
+    },
+    {
+      value: 1e9,
+      symbol: 'G'
+    },
+    {
+      value: 1e6,
+      symbol: 'M'
+    },
+    {
+      value: 1e3,
+      symbol: 'k'
+    }
   ]
   for (let i = 0; i < si.length; i++) {
     if (num >= si[i].value) {
-      return (
-        (num / si[i].value + 0.1)
-          .toFixed(digits)
-          .replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + si[i].symbol
-      )
+      return (num / si[i].value + 0.1).toFixed(digits).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + si[i].symbol
     }
   }
   return num.toString()
@@ -198,9 +185,7 @@ export function html2Text(val) {
 }
 
 export function toThousandslsFilter(num) {
-  return (+num || 0)
-    .toString()
-    .replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
+  return (+num || 0).toString().replace(/^-?\d+/g, (m) => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
 }
 // 验证手机号
 export function checkPhone(rule, value, callback) {
@@ -280,16 +265,8 @@ export function getStrleng(str, max) {
 export function updatedImg(file, obj, callback, func) {
   if (file.size < 10100000) {
     var fileName = file.name
-    var suffix = fileName
-      .substring(fileName.lastIndexOf('.') + 1)
-      .toUpperCase()
-    if (
-      suffix === 'PDF' ||
-      suffix === 'JPG' ||
-      suffix === 'JPEG' ||
-      suffix === 'PNG' ||
-      suffix === 'GIF'
-    ) {
+    var suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toUpperCase()
+    if (suffix === 'PDF' || suffix === 'JPG' || suffix === 'JPEG' || suffix === 'PNG' || suffix === 'GIF') {
       return true
     } else {
       var tipType = '文件类型不正确,请重新上传'
@@ -306,18 +283,8 @@ export function updatedImg(file, obj, callback, func) {
 export function updatedFile(file, obj, callback, func) {
   if (file.size < 10100000) {
     var fileName = file.name
-    var suffix = fileName
-      .substring(fileName.lastIndexOf('.') + 1)
-      .toUpperCase()
-    if (
-      suffix === 'DOC' ||
-      suffix === 'DOCX' ||
-      suffix === 'XLS' ||
-      suffix === 'XLSX' ||
-      suffix === 'PDF' ||
-      suffix === 'ZIP' ||
-      suffix === 'RAR'
-    ) {
+    var suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toUpperCase()
+    if (suffix === 'DOC' || suffix === 'DOCX' || suffix === 'XLS' || suffix === 'XLSX' || suffix === 'PDF' || suffix === 'ZIP' || suffix === 'RAR') {
       return true
     } else {
       var tipType = '文件类型不正确,请重新上传'
@@ -333,13 +300,8 @@ export function updatedFile(file, obj, callback, func) {
 export function importFile(file, obj, callback, func) {
   if (file.size < 10100000) {
     var fileName = file.name
-    var suffix = fileName
-      .substring(fileName.lastIndexOf('.') + 1)
-      .toUpperCase()
-    if (
-      suffix === 'XLS' ||
-      suffix === 'XLSX'
-    ) {
+    var suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toUpperCase()
+    if (suffix === 'XLS' || suffix === 'XLSX') {
       return true
     } else {
       var tipType = '文件类型不正确,请重新上传'
@@ -373,7 +335,7 @@ export function formatDate(date, fmt = 'yyyy-MM-dd') {
   for (const k in o) {
     if (new RegExp(`(${k})`).test(fmt)) {
       const str = o[k] + ''
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str))
+      fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : padLeftZero(str))
     }
   }
   return fmt
