@@ -8,7 +8,10 @@
     <!-- <breadcrumb class="breadcrumb-container" /> -->
 
     <div class="right-menu">
+      <!-- 全屏组件 -->
       <screen-full class="right-menu-item" />
+      <!-- 切换主题色组件 -->
+      <theme-picker class="right-menu-item" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- 待修改动态头像修改 -->
