@@ -33,7 +33,8 @@ if (isProd) {
       'https://unpkg.com/element-ui/lib/theme-chalk/index.css' // 提前引入elementUI样式
     ], // 放置css文件目录
     js: [
-      'https://unpkg.com/vue/dist/vue.js', // vuejs
+      // 'https://unpkg.com/vue/dist/vue.js', // vuejs
+      'https://unpkg.com/vue@2.7.14/dist/vue.js',
       'https://unpkg.com/element-ui/lib/index.js', // element
       'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/xlsx.full.min.js', // xlsx 相关
       'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/jszip.min.js' // xlsx 相关
