@@ -12,6 +12,8 @@
       <screen-full class="right-menu-item" />
       <!-- 切换主题色组件 -->
       <theme-picker class="right-menu-item" />
+      <!-- 放置切换多语言包 -->
+      <lang class="right-menu-item" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- 待修改动态头像修改 -->

@@ -10,6 +10,7 @@ export default {
       // 这里当二级路由的path什么都不写的时候 表示该路由为当前二级路由的默认路由
       path: '',
       component: () => import('@/views/employees'),
+      name: 'employees',
       meta: {
         // 这里为什么要用title呢， 因为左侧导航会读取我们的路由里的meta里面的title作为显示菜单名称
         title: '员工管理',
