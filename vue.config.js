@@ -45,6 +45,7 @@ module.exports = {
     }
     // before: require('./mock/mock-server.js')
   },
+  // 配置Webpack属性
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
@@ -53,6 +54,12 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    // 要排除的包名
+    externals: {
+      vue: 'Vue',
+      'element-ui': 'ELEMENT',
+      xlsx: 'XLSX'
     }
   },
   chainWebpack(config) {
