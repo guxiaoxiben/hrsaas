@@ -6,7 +6,7 @@
     </div>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item command="zh" :disabled="'zh' === $i18n.locale">Chinese</el-dropdown-item>
-      <el-dropdown-item command="en" :disabled="'en' === $i18n.locale">English</el-dropdown-item></el-dropdown-item>
+      <el-dropdown-item command="en" :disabled="'en' === $i18n.locale">English</el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
